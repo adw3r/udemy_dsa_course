@@ -5,6 +5,24 @@ class Node:
 
 
 class LinkedList:
+
+    def remove(self, index):
+        if index < 0 or index >= self.length:
+            return None
+        if index == 0:
+            return self.pop_first()
+        if index == self.length:
+            return self.pop()
+
+        prev = self.get(index - 1)
+        next_ = prev.next
+
+        prev.next = next_.next
+        next_.next = None
+
+        self.length -= 1
+        return next_
+
     def insert(self, index, value):
         if index <0 or index > self.length:
             return False
