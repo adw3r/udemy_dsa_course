@@ -5,40 +5,20 @@ class Node:
 
 
 class LinkedList:
+    def reverse(self):
+        middle = self.head
+        self.head = self.tail
+        self.tail = middle
 
-    def remove(self, index):
-        if index < 0 or index >= self.length:
-            return None
-        if index == 0:
-            return self.pop_first()
-        if index == self.length:
-            return self.pop()
+        left = None
 
-        prev = self.get(index - 1)
-        next_ = prev.next
+        while middle is not None:
+            right = middle.next
+            middle.next = left
 
-        prev.next = next_.next
-        next_.next = None
+            left = middle
+            middle = right
 
-        self.length -= 1
-        return next_
-
-    def insert(self, index, value):
-        if index <0 or index > self.length:
-            return False
-        if index == 0:
-            return self.prepend(value)
-        if index == self.length:
-            return self.append(value)
-
-        node = Node(value)
-        prev = self.get(index - 1)
-        node.next = prev.next
-        prev.next = node
-
-
-        self.length += 1
-        return True
 
     def __init__(self, value):
         new_node = Node(value)
@@ -116,39 +96,55 @@ class LinkedList:
             return True
         return False
 
-    ## WRITE INSERT METHOD HERE ##
-    #                            #
-    #                            #
-    #                            #
-    #                            #
-    ##############################
+    def insert(self, index, value):
+        if index < 0 or index > self.length:
+            return False
+        if index == 0:
+            return self.prepend(value)
+        if index == self.length:
+            return self.append(value)
+        new_node = Node(value)
+        temp = self.get(index - 1)
+        new_node.next = temp.next
+        temp.next = new_node
+        self.length += 1
+        return True
+
+    def remove(self, index):
+        if index < 0 or index >= self.length:
+            return None
+        if index == 0:
+            return self.pop_first()
+        if index == self.length - 1:
+            return self.pop()
+        pre = self.get(index - 1)
+        temp = pre.next
+        pre.next = temp.next
+        temp.next = None
+        self.length -= 1
+        return temp
+
+    ## WRITE REVERSE METHOD HERE ##
+    #                             #
+    #                             #
+    #                             #
+    #                             #
+    ###############################
 
 
 
 
 my_linked_list = LinkedList(1)
+my_linked_list.append(2)
 my_linked_list.append(3)
+my_linked_list.append(4)
 
-
-print('LL before insert():')
+print('LL before reverse():')
 my_linked_list.print_list()
 
+my_linked_list.reverse()
 
-my_linked_list.insert(1,2)
-
-print('\nLL after insert(2) in middle:')
-my_linked_list.print_list()
-
-
-my_linked_list.insert(0,0)
-
-print('\nLL after insert(0) at beginning:')
-my_linked_list.print_list()
-
-
-my_linked_list.insert(4,4)
-
-print('\nLL after insert(4) at end:')
+print('\nLL after reverse():')
 my_linked_list.print_list()
 
 
@@ -156,26 +152,16 @@ my_linked_list.print_list()
 """
     EXPECTED OUTPUT:
     ----------------
-    LL before insert():
-    1
-    3
-
-    LL after insert(2) in middle:
-    1
-    2
-    3
-
-    LL after insert(0) at beginning:
-    0
-    1
-    2
-    3
-
-    LL after insert(4) at end:
-    0
+    LL before reverse():
     1
     2
     3
     4
+
+    LL after reverse():
+    4
+    3
+    2
+    1
 
 """
